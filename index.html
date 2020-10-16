@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parcel Sandbox</title>
+    <meta charset="UTF-8" />
+  </head>
+
+  <body>
+    <canvas id="canvas"></canvas>
+    <div>
+      <button id="button">New Grid</button>
+      <button id="stop">Play</button>
+      <button id="random">Random</button>
+    </div>
+
+    <div class="slider">
+      <input
+        type="range"
+        min="10"
+        max="1000"
+        value="50"
+        id="slider"
+        step="10"
+      />
+      <p>Speed: <span id="speed"></span>/sec</p>
+    </div>
+    <script src="src/index.js"></script>
+  </body>
+</html>
