@@ -61,6 +61,11 @@ let speed = document.getElementById("speed");
 speed.innerHTML = slider.value;
 
 slider.oninput = function () {
+    if (running === true) {
+        clearInterval(runGame);
+        running = false;
+        playPause();
+      }
   speed.innerHTML = this.value
   gameSpeed = this.value;
 };
@@ -68,6 +73,7 @@ slider.oninput = function () {
 
 //initializing map
 randomGrid();
+draw()
 
 //all our functions
 function createGrid(size) {
@@ -80,7 +86,7 @@ function createGrid(size) {
 
 function randomGrid() {
   grid = createGrid(size)
-  console.log(bufferNum)
+  console.log("rand", bufferNum)
   for (let x = 0; x < size; x++) {
     for (let y = 0; y < size; y++) {
       if (Math.random() < 0.5) {
@@ -91,19 +97,19 @@ function randomGrid() {
     }
   }
   buffer[bufferNum] = grid;
-  draw()
+  buffer[1-bufferNum] = createGrid(size)
 }
 
 function newGrid() {
     grid = createGrid(size)
-  console.log(bufferNum)
+  console.log("newb", bufferNum)
   for (let x = 0; x < size; x++) {
     for (let y = 0; y < size; y++) {
       grid[x][y] = false;
     }
   }
   buffer[bufferNum] = grid;
-  draw()
+  buffer[1-bufferNum] = createGrid(size)
 }
 
 function initFill() {
@@ -113,7 +119,6 @@ function initFill() {
 
 function draw() {
   initFill();
-  console.log(bufferNum)
   
   for (let x = 0; x < size; x++) {
     for (let y = 0; y < size; y++) {
@@ -182,7 +187,7 @@ function nextCycle() {
   let newMap = buffer[1-bufferNum];
   
   bufferNum = 1 - bufferNum;
-  console.log(bufferNum)
+  console.log("next", bufferNum)
   for (let x = 0; x < size; x++) {
     for (let y = 0; y < size; y++) {
       let neighbors = areaCheck(x, y);
