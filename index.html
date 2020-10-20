@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Parcel Sandbox</title>
+    <title>Game of Life</title>
     <meta charset="UTF-8" />
+    <link rel="stylesheet" type="text/css" href="./src/styles.css" />
   </head>
 
   <body>
     <canvas id="canvas"></canvas>
     <div>
-      <button id="button">New Grid</button>
+      <button id="button">Blank Grid</button>
       <button id="stop">Play</button>
-      <button id="random">Random</button>
+      <button id="random">Random Grid</button>
     </div>
 
     <div class="slider">
@@ -18,12 +19,22 @@
         type="range"
         min="10"
         max="1000"
-        value="50"
+        value = "50"
         id="slider"
         step="10"
       />
-      <p>Speed: <span id="speed"></span>/sec</p>
+      <p>Speed: <span id="speed"></span>/msec</p>
     </div>
+    <div>
+        <h1 >Generation:<span id="gen"></span> </h1>
+    </div>
+    <select name="gridsize" id="ratio">
+        <option value="100">10</option>
+        <option value="250">25</option>
+        <option value="500" selected>50</option>
+        <option value="1000">100</option>
+    </select>
+
     <script src="src/index.js"></script>
   </body>
 </html>

@@ -1,25 +1,46 @@
+// setting up the canvas
 let c = document.getElementById("canvas");
 let ctx = c.getContext("2d");
-c.width = 500;
-c.height = 500;
-let rows, cols, grid;
+let ratio = document.getElementById("ratio")
+c.width = +ratio.value;
+c.height = +ratio.value;
+let grid, size;
 let cellsize = 10;
-rows = c.width / cellsize;
-cols = c.width / cellsize;
+size = c.width / cellsize;
+let arr1 = [];
+let arr2 = [];
+let buffer = [arr1, arr2]
+let bufferNum = 0
+
+//determining the functions of the canvas
+let state = "random"
 let gameSpeed = 50;
 let running = false;
 let runGame;
+let genCount = 0;
 
+// grabbing dom elements
+let gen = document.getElementById("gen")
+gen.innerText = genCount;
 let newMapBtn = document.getElementById("button");
 let playBtn = document.getElementById("stop");
 let randoBtn = document.getElementById("random");
-// console.log(randomGrid());
+
+
+//event listeners
+ratio.addEventListener("change", changeSize)
 newMapBtn.addEventListener("click", () => {
   newGrid();
+  state = "new"
+  genCount = 0;
+  gen.innerText = genCount;
   draw();
 });
 randoBtn.addEventListener("click", () => {
   randomGrid();
+  state = "random"
+  genCount = 0;
+  gen.innerText = genCount;
   draw();
 });
 playBtn.addEventListener("click", () => {
@@ -32,24 +53,36 @@ playBtn.addEventListener("click", () => {
     running = false;
   }
 });
+c.addEventListener("click", handleClick);
 
+//Slider stuffs
+let slider = document.getElementById("slider");
+let speed = document.getElementById("speed");
+speed.innerHTML = slider.value;
+
+slider.oninput = function () {
+  speed.innerHTML = this.value
+  gameSpeed = this.value;
+};
+
+
+//initializing map
 randomGrid();
-draw();
-// setInterval(nextCycle, 500);
-// console.log(areaCheck(5, 6));
-//making the grid.
-function createGrid(cols, rows) {
-  let arr = new Array(cols);
+
+//all our functions
+function createGrid(size) {
+  let arr = new Array(size);
   for (let x = 0; x < arr.length; x++) {
-    arr[x] = new Array(rows);
+    arr[x] = new Array(size);
   }
   return arr;
 }
 
 function randomGrid() {
-  grid = createGrid(rows, cols);
-  for (let x = 0; x < cols; x++) {
-    for (let y = 0; y < rows; y++) {
+  grid = createGrid(size)
+  console.log(bufferNum)
+  for (let x = 0; x < size; x++) {
+    for (let y = 0; y < size; y++) {
       if (Math.random() < 0.5) {
         grid[x][y] = true;
       } else {
@@ -57,38 +90,45 @@ function randomGrid() {
       }
     }
   }
-  return grid;
+  buffer[bufferNum] = grid;
+  draw()
 }
 
 function newGrid() {
-  grid = createGrid(rows, cols);
-  for (let x = 0; x < cols; x++) {
-    for (let y = 0; y < rows; y++) {
+    grid = createGrid(size)
+  console.log(bufferNum)
+  for (let x = 0; x < size; x++) {
+    for (let y = 0; y < size; y++) {
       grid[x][y] = false;
     }
   }
-  return grid;
+  buffer[bufferNum] = grid;
+  draw()
+}
+
+function initFill() {
+    ctx.fillStyle = "white"
+    ctx.fillRect(0,0, c.width, c.height)
 }
 
 function draw() {
-  for (let x = 0; x < cols; x++) {
-    for (let y = 0; y < rows; y++) {
+  initFill();
+  console.log(bufferNum)
+  
+  for (let x = 0; x < size; x++) {
+    for (let y = 0; y < size; y++) {
       let xCell = x * cellsize,
         yCell = y * cellsize;
       if (grid[x][y] === true) {
         ctx.fillStyle = "black";
         ctx.fillRect(xCell, yCell, cellsize, cellsize);
-      } else {
-        ctx.fillStyle = "white";
-        ctx.fillRect(xCell, yCell, cellsize, cellsize);
-        // ctx.strokeStyle = "black";
-        // ctx.strokeRect(xCell, yCell, cellsize, cellsize);
-      }
+    }
     }
   }
 }
 
-c.addEventListener("click", (e) => {
+
+function handleClick(e) {
   if (running === true) {
     clearInterval(runGame);
     running = false;
@@ -100,8 +140,8 @@ c.addEventListener("click", (e) => {
     y: e.clientY - bound.top
   };
   // console.log(pos.x, pos.y);
-  for (let x = 0; x < cols; x++) {
-    for (let y = 0; y < rows; y++) {
+  for (let x = 0; x < size; x++) {
+    for (let y = 0; y < size; y++) {
       let xCell = x * cellsize,
         yCell = y * cellsize;
       if (
@@ -120,15 +160,15 @@ c.addEventListener("click", (e) => {
     }
   }
   draw();
-});
+};
 
 function areaCheck(x, y) {
   let numAlive = 0;
   for (let h = -1; h < 2; h++) {
     for (let v = -1; v < 2; v++) {
       if (h === 0 && v === 0) continue;
-      if (h + x < 0 || x + h > cols - 1) continue;
-      if (y + v < 0 || y + v > rows - 1) continue;
+      if (h + x < 0 || x + h > size - 1) continue;
+      if (y + v < 0 || y + v > size - 1) continue;
       if (grid[x + h][y + v]) {
         numAlive++;
       }
@@ -138,33 +178,42 @@ function areaCheck(x, y) {
 }
 
 function nextCycle() {
-  let newMap = createGrid(cols, rows);
-  for (let x = 0; x < cols; x++) {
-    for (let y = 0; y < rows; y++) {
+    
+  let newMap = buffer[1-bufferNum];
+  
+  bufferNum = 1 - bufferNum;
+  console.log(bufferNum)
+  for (let x = 0; x < size; x++) {
+    for (let y = 0; y < size; y++) {
       let neighbors = areaCheck(x, y);
       if (grid[x][y] && neighbors >= 2 && neighbors <= 3) {
         newMap[x][y] = true;
       } else if (!grid[x][y] && neighbors === 3) {
         newMap[x][y] = true;
+      } else {
+        newMap[x][y] = false;
       }
     }
   }
   grid = newMap;
+  genCount+= 1
+  gen.innerText = genCount
   draw();
+
 }
 
-//Slider stuffs
-let slider = document.getElementById("slider");
-let speed = document.getElementById("speed");
-speed.innerHTML = slider.value;
 
-slider.oninput = function () {
-  speed.innerHTML = this.value / 1000;
-  gameSpeed = this.value;
-};
 
 function playPause() {
   // no ';' here
   if (playBtn.innerHTML === "Play") playBtn.innerHTML = "Pause";
   else playBtn.innerHTML = "Play";
+}
+
+function changeSize() {
+    c.width = +ratio.value;
+    c.height = +ratio.value;
+    size = c.width / cellsize;
+    state === "random" ? randomGrid() : newGrid()
+    draw()
 }
