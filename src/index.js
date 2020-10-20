@@ -216,9 +216,17 @@ function playPause() {
 }
 
 function changeSize() {
+    if(ratio.value === "5000"){
+        c.width = 1000
+        c.height = 1000
+        cellsize = 2
+        size = c.width / cellsize
+    } else {
     c.width = +ratio.value;
     c.height = +ratio.value;
-    size = c.width / cellsize;
+    cellsize = 10;
+    size = c.width / cellsize;}
+
     state === "random" ? randomGrid() : newGrid()
     draw()
 }
