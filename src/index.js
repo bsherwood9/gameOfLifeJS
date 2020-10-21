@@ -61,11 +61,11 @@ let speed = document.getElementById("speed");
 speed.innerHTML = slider.value;
 
 slider.oninput = function () {
-    if (running === true) {
-        clearInterval(runGame);
-        running = false;
-        playPause();
-      }
+  if (running === true) {
+    clearInterval(runGame);
+    running = false;
+    playPause();
+  }
   speed.innerHTML = this.value
   gameSpeed = this.value;
 };
@@ -97,11 +97,11 @@ function randomGrid() {
     }
   }
   buffer[bufferNum] = grid;
-  buffer[1-bufferNum] = createGrid(size)
+  buffer[1 - bufferNum] = createGrid(size)
 }
 
 function newGrid() {
-    grid = createGrid(size)
+  grid = createGrid(size)
   console.log("newb", bufferNum)
   for (let x = 0; x < size; x++) {
     for (let y = 0; y < size; y++) {
@@ -109,17 +109,17 @@ function newGrid() {
     }
   }
   buffer[bufferNum] = grid;
-  buffer[1-bufferNum] = createGrid(size)
+  buffer[1 - bufferNum] = createGrid(size)
 }
 
 function initFill() {
-    ctx.fillStyle = "white"
-    ctx.fillRect(0,0, c.width, c.height)
+  ctx.fillStyle = "white"
+  ctx.fillRect(0, 0, c.width, c.height)
 }
 
 function draw() {
   initFill();
-  
+
   for (let x = 0; x < size; x++) {
     for (let y = 0; y < size; y++) {
       let xCell = x * cellsize,
@@ -127,7 +127,7 @@ function draw() {
       if (grid[x][y] === true) {
         ctx.fillStyle = "black";
         ctx.fillRect(xCell, yCell, cellsize, cellsize);
-    }
+      }
     }
   }
 }
@@ -183,9 +183,9 @@ function areaCheck(x, y) {
 }
 
 function nextCycle() {
-    
-  let newMap = buffer[1-bufferNum];
-  
+
+  let newMap = buffer[1 - bufferNum];
+
   bufferNum = 1 - bufferNum;
   console.log("next", bufferNum)
   for (let x = 0; x < size; x++) {
@@ -201,7 +201,7 @@ function nextCycle() {
     }
   }
   grid = newMap;
-  genCount+= 1
+  genCount += 1
   gen.innerText = genCount
   draw();
 
@@ -216,17 +216,38 @@ function playPause() {
 }
 
 function changeSize() {
-    if(ratio.value === "5000"){
-        c.width = 1000
-        c.height = 1000
-        cellsize = 2
-        size = c.width / cellsize
-    } else {
+  if (ratio.value === "5000") {
+    c.width = 1000
+    c.height = 1000
+    cellsize = 2
+    size = c.width / cellsize
+  } else {
     c.width = +ratio.value;
     c.height = +ratio.value;
     cellsize = 10;
-    size = c.width / cellsize;}
+    size = c.width / cellsize;
+  }
 
-    state === "random" ? randomGrid() : newGrid()
-    draw()
+  state === "random" ? randomGrid() : newGrid()
+  draw()
+}
+
+
+//Modal stuff
+let modal = document.getElementById("modal");
+let rules = document.getElementById("myBtn");
+let close = document.getElementById("close")
+
+rules.onclick = function () {
+  modal.style.display = "block";
+}
+
+close.onclick = function () {
+  modal.style.display = "none";
+}
+
+window.onclick = function (event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
 }

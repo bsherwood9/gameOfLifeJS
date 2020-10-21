@@ -1,41 +1,53 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Game of Life</title>
-    <meta charset="UTF-8" />
-    <link rel="stylesheet" type="text/css" href="./src/styles.css" />
-  </head>
 
-  <body>
+<head>
+  <title>Game of Life</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" type="text/css" href="./src/styles.css" />
+</head>
+
+<body>
+  <div class="nav-container">
+    <ul class="nav">
+      <li> Conway's Game of Life</li>
+      <li id="myBtn">Rules</li>
+    </ul>
+  </div>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="close">X</span>
+      <h1>Rules of the Game!</h1>
+    </div>
+
+  </div>
+
+  <div class="ccontainer">
     <canvas id="canvas"></canvas>
-    <div>
-      <button id="button">Blank Grid</button>
-      <button id="stop">Play</button>
-      <button id="random">Random Grid</button>
-    </div>
+    <div class="controls">
+      <div class="buttons">
+        <button id="button">Blank Grid</button>
+        <button id="stop">Play</button>
+        <button id="random">Random Grid</button>
+      </div>
+      <div class="slider">
+        <input type="range" min="10" max="1000" value="50" id="slider" step="10" />
+        <p>Speed: <span id="speed"></span>/msec</p>
+        <h1>Generation:<span id="gen"></span> </h1>
+      </div>
 
-    <div class="slider">
-      <input
-        type="range"
-        min="10"
-        max="1000"
-        value = "50"
-        id="slider"
-        step="10"
-      />
-      <p>Speed: <span id="speed"></span>/msec</p>
-    </div>
-    <div>
-        <h1 >Generation:<span id="gen"></span> </h1>
-    </div>
-    <select name="gridsize" id="ratio">
+
+      <select name="gridsize" id="ratio">
         <option value="100">10</option>
         <option value="250">25</option>
         <option value="500" selected>50</option>
         <option value="1000">100</option>
         <option value="5000">500</option>
-    </select>
+      </select>
+    </div>
+  </div>
+  <script src="src/index.js"></script>
+</body>
 
-    <script src="src/index.js"></script>
-  </body>
 </html>
