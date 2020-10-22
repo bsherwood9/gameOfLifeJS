@@ -2,6 +2,7 @@ body {
   margin: 0;
   font-family: sans-serif;
   display: grid;
+  box-sizing: border-box;
 }
 
 #canvas {
@@ -14,17 +15,22 @@ li {
   padding: 0px 10px;
   
 }
+
 a {
   text-decoration: none;
   color: white;
+}
+li {
+ cursor: pointer;
 }
 .nav-container {
   background: black;
   color: white;
 }
 .nav {
+  width: 50%;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   height: 20px;
   
 }
@@ -45,6 +51,9 @@ a {
   padding:0 40px;
 }
 
+.slider {
+  padding: 20px 0;
+}
 
 /*modal stuff */
 .modal {

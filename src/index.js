@@ -113,8 +113,10 @@ function newGrid() {
 }
 
 function initFill() {
+
   ctx.fillStyle = "white"
   ctx.fillRect(0, 0, c.width, c.height)
+
 }
 
 function draw() {

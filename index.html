@@ -4,13 +4,14 @@
 <head>
   <title>Game of Life</title>
   <meta charset="UTF-8" />
+  <link rel="icon" href="icon.png" type="image/ico" />
   <link rel="stylesheet" type="text/css" href="./src/styles.css" />
 </head>
 
 <body>
   <div class="nav-container">
     <ul class="nav">
-      <li> Conway's Game of Life</li>
+      <li id="name"> Conway's Game of Life</li>
       <li id="myBtn">Rules</li>
     </ul>
   </div>
@@ -18,13 +19,21 @@
   <div id="modal" class="modal">
     <div class="modal-content">
       <span id="close">X</span>
-      <h1>Rules of the Game!</h1>
+      <h1>Conway's Game of Life Rules</h1>
+      <p>The rules of this game are pretty straightforward. Every square or cell is either alive(black) or dead(white).
+        Every cell interacts with the cells around it according to a few rules.
+      <p>
+      <p>1. Any live cell that has two or three adjacent live cells lives.</p>
+      <p>2. A dead cell that has three living adjacent cells, becomes a live cell.</p>
+      <p>3. Any other cell that doesn't meet the above two rules dies.</p>
+      <p>These rules are applied every generation or step.</p>
     </div>
 
   </div>
 
   <div class="ccontainer">
     <canvas id="canvas"></canvas>
+
     <div class="controls">
       <div class="buttons">
         <button id="button">Blank Grid</button>
@@ -34,17 +43,22 @@
       <div class="slider">
         <input type="range" min="10" max="1000" value="50" id="slider" step="10" />
         <p>Speed: <span id="speed"></span>/msec</p>
-        <h1>Generation:<span id="gen"></span> </h1>
+      </div>
+      <div>
+        <label>Grid size</label>
+        <select name="gridsize" id="ratio">
+          <option value="100">10</option>
+          <option value="250">25</option>
+          <option value="500" selected>50</option>
+          <option value="1000">100</option>
+          <option value="5000">500</option>
+        </select>
       </div>
 
 
-      <select name="gridsize" id="ratio">
-        <option value="100">10</option>
-        <option value="250">25</option>
-        <option value="500" selected>50</option>
-        <option value="1000">100</option>
-        <option value="5000">500</option>
-      </select>
+
+
+      <h1>Generation:<span id="gen"></span> </h1>
     </div>
   </div>
   <script src="src/index.js"></script>
