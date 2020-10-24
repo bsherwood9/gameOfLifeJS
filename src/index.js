@@ -4,9 +4,12 @@ let ctx = c.getContext("2d");
 let ratio = document.getElementById("ratio")
 c.width = +ratio.value;
 c.height = +ratio.value;
-let grid, size;
+console.log("width", c.width)
+console.log("height", c.height)
+let grid, cols, rows;
 let cellsize = 10;
 size = c.width / cellsize;
+console.log("size", size)
 let arr1 = [];
 let arr2 = [];
 let buffer = [arr1, arr2]
@@ -113,15 +116,12 @@ function newGrid() {
 }
 
 function initFill() {
-
   ctx.fillStyle = "white"
   ctx.fillRect(0, 0, c.width, c.height)
-
 }
 
 function draw() {
   initFill();
-
   for (let x = 0; x < size; x++) {
     for (let y = 0; y < size; y++) {
       let xCell = x * cellsize,
@@ -152,10 +152,10 @@ function handleClick(e) {
       let xCell = x * cellsize,
         yCell = y * cellsize;
       if (
-        pos.x > xCell &&
-        pos.x <= xCell + cellsize &&
-        pos.y > yCell &&
-        pos.y <= yCell + cellsize
+        pos.x >= xCell &&
+        pos.x < xCell + cellsize &&
+        pos.y >= yCell &&
+        pos.y < yCell + cellsize
       ) {
         // console.log(grid[x][y]);
         if (grid[x][y]) {
@@ -185,9 +185,7 @@ function areaCheck(x, y) {
 }
 
 function nextCycle() {
-
   let newMap = buffer[1 - bufferNum];
-
   bufferNum = 1 - bufferNum;
   console.log("next", bufferNum)
   for (let x = 0; x < size; x++) {
@@ -212,7 +210,6 @@ function nextCycle() {
 
 
 function playPause() {
-  // no ';' here
   if (playBtn.innerHTML === "Play") playBtn.innerHTML = "Pause";
   else playBtn.innerHTML = "Play";
 }
@@ -223,13 +220,18 @@ function changeSize() {
     c.height = 1000
     cellsize = 2
     size = c.width / cellsize
-  } else {
+  }
+  // } else if (ratio.value === "1000") {
+  //   c.width = 500
+  //   c.width = 500
+  //   cellsize = 5
+  //   size = c.width / cellsize
+  else {
     c.width = +ratio.value;
     c.height = +ratio.value;
     cellsize = 10;
-    size = c.width / cellsize;
+    size = c.width / cellsize
   }
-
   state === "random" ? randomGrid() : newGrid()
   draw()
 }

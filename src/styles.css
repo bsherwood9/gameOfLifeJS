@@ -2,11 +2,12 @@ body {
   margin: 0;
   font-family: sans-serif;
   display: grid;
-  box-sizing: border-box;
+  
 }
 
 #canvas {
   border: 1px solid black;
+  /* margin: 0px 20px; */
 }
 
 
@@ -41,7 +42,7 @@ li {
 .ccontainer {
   display: flex;
   justify-content: center;
-  margin: 10px auto;
+  margin: 30px auto;
   width: 80%;
 }
 .controls {
@@ -83,4 +84,12 @@ li {
 #close:hover{
   color: black;
   cursor: pointer;
+}
+
+h2{
+  margin-top: 20px;
+  margin-bottom: 0;
+}
+#gen {
+  margin: 5px 0
 }
