@@ -239,7 +239,7 @@ function changeSize() {
 
 //Modal stuff
 let modal = document.getElementById("modal");
-let rules = document.getElementById("myBtn");
+let rules = document.getElementById("mod");
 let close = document.getElementById("close")
 
 rules.onclick = function () {

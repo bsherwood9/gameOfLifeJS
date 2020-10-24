@@ -21,8 +21,7 @@ a {
   text-decoration: none;
   color: white;
 }
-li {
- cursor: pointer;
+#mod {cursor: pointer;
 }
 .nav-container {
   background: black;
