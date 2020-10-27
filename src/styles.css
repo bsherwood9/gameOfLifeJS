@@ -47,12 +47,13 @@ a {
 .controls {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   padding:0 40px;
 }
 
 .slider {
   padding: 20px 0;
+  
 }
 
 /*modal stuff */
@@ -90,5 +91,19 @@ h2{
   margin-bottom: 0;
 }
 #gen {
-  margin: 5px 0
+  margin: 5px auto;
 }
+
+button {
+  padding: 5px;
+  margin-bottom: 10px;
+  width: 130px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background: white;
+}
+button:hover {
+  background: rgba(34, 33, 33, 0.878);
+  color: white;
+}
+
